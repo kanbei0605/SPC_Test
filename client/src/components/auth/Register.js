@@ -64,11 +64,11 @@ class Register extends Component {
               <h2>
                 <b>Create an Account</b>
               </h2>
-              <div class="text-gray-400 fw-bold fs-4">Already have an account? 
-								<a href="/login" class="link-primary fw-bolder"> Sign in here</a></div>              
+              <div className="text-gray-400 fw-bold fs-4">Already have an account? 
+								<a href="/login" className="link-primary fw-bolder"> Sign in here</a></div>              
             </div>
             <div className="input-field row s12 mb-10">
-                <label class="form-label fs-6 fw-bolder text-dark" htmlFor="userName">UserName</label>
+                <label className="form-label fs-6 fw-bolder text-dark" htmlFor="userName">UserName</label>
                 <input
                   onChange={this.onChange}
                   value={this.state.name}
@@ -81,7 +81,7 @@ class Register extends Component {
               </div>
               <p></p>
               <div className="input-field row s12 mb-10">
-                <label class="form-label fs-6 fw-bolder text-dark" htmlFor="password">Email</label>
+                <label className="form-label fs-6 fw-bolder text-dark" htmlFor="password">Email</label>
                 <input            
                   onChange={this.onChange}
                   value={this.state.email}
@@ -94,7 +94,7 @@ class Register extends Component {
               </div>
               <p></p>
               <div className="input-field row s12 mb-10">
-                <label class="form-label fs-6 fw-bolder text-dark" htmlFor="password">Password</label>
+                <label className="form-label fs-6 fw-bolder text-dark" htmlFor="password">Password</label>
                 <input
                   onChange={this.onChange}
                   value={this.state.password}
@@ -107,7 +107,7 @@ class Register extends Component {
               </div>
               <p></p>
               <div className="input-field row s12 mb-10">
-              <label class="form-label fs-6 fw-bolder text-dark" htmlFor="password">Confirm Password</label>
+              <label className="form-label fs-6 fw-bolder text-dark" htmlFor="password">Confirm Password</label>
                   <input
                   onChange={this.onChange}
                   value={this.state.password2}
@@ -120,10 +120,10 @@ class Register extends Component {
               </div>
               
               <div className="input-field row s12">
-              <button type="submit" id="kt_sign_in_submit" class="btn btn-lg btn-primary w-100 mb-5">
-                <span class="indicator-label">Submit</span>
-                <span class="indicator-progress">Please wait... 
-                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+              <button type="submit" id="kt_sign_in_submit" className="btn btn-lg btn-primary w-100 mb-5">
+                <span className="indicator-label">Submit</span>
+                <span className="indicator-progress">Please wait... 
+                <span className="spinner-border spinner-border-sm align-middle ms-2"></span></span>
               </button>
             </div>
             </form>

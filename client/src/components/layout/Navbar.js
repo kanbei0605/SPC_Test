@@ -24,7 +24,7 @@ class Navbar extends Component {
 									<span className="svg-icon svg-icon-2">										
 									</span>
 									<span className="menu-title">
-										Upload Video
+										Video
 									</span>
 								</span>
 							</a>

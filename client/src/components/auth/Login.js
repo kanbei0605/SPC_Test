@@ -66,11 +66,11 @@ class Login extends Component {
               <h2>
                 <b>Sign In to Video System</b>
               </h2>
-              <div class="text-gray-400 fw-bold fs-4">New Here? 
-								<a href="/register" class="link-primary fw-bolder"> Create an Account</a></div>              
+              <div className="text-gray-400 fw-bold fs-4">New Here? 
+								<a href="/register" className="link-primary fw-bolder"> Create an Account</a></div>              
             </div>
               <div className="input-field row s12 mb-10">
-                <label class="form-label fs-6 fw-bolder text-dark" htmlFor="email">Email or Name</label>
+                <label className="form-label fs-6 fw-bolder text-dark" htmlFor="email">Email or Name</label>
                 <input
                   onChange={this.onChange}
                   value={this.state.email}
@@ -86,7 +86,7 @@ class Login extends Component {
               </div>
               <p></p>
               <div className="input-field row s12 mb-10">
-                <label class="form-label fs-6 fw-bolder text-dark" htmlFor="password">Password</label>
+                <label className="form-label fs-6 fw-bolder text-dark" htmlFor="password">Password</label>
                 <input
                   onChange={this.onChange}
                   value={this.state.password}
@@ -103,10 +103,10 @@ class Login extends Component {
               </div>
 
             <div className="input-field row s12">
-              <button type="submit" id="kt_sign_in_submit" class="btn btn-lg btn-primary w-100 mb-5">
-                <span class="indicator-label">Continue</span>
-                <span class="indicator-progress">Please wait... 
-                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+              <button type="submit" id="kt_sign_in_submit" className="btn btn-lg btn-primary w-100 mb-5">
+                <span className="indicator-label">Continue</span>
+                <span className="indicator-progress">Please wait... 
+                <span className="spinner-border spinner-border-sm align-middle ms-2"></span></span>
               </button>
             </div>
             </form>

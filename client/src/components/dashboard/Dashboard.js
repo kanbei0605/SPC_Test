@@ -14,24 +14,95 @@ class Dashboard extends Component {
   
     constructor(props){
       super(props);
-      this.state = {      
+      this.state = {
+        size: "",
+        count: "",
       }
     }
     
+    componentDidMount = () => {
+      axios
+        .get("/api/video")
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          alert("failed");
+          console.log(err.respnse.data);
+        });
+    }
+
     onLogoutClick = () => {      
       this.props.logoutUser();
+    };
+
+    onAdd = () => {
+      if( this.state.size === '' || this.state.count === '') {
+        alert("Input correctly");
+        return;
+      }
+      const data = {
+        videoSize: this.state.size,
+        viewerCount: this.state.count,
+        username: this.props.auth.user.name,
+      }
+      axios
+        .post("/api/video", data)
+        .then(res => {
+          console.log(res);
+          alert("created successfully");
+        })
+        .catch(err => {
+          alert("failed");
+          console.log(err.respnse.data);
+        });
+    };
+
+    onChange = e => {
+      this.setState({ [e.target.name]: e.target.value });
     };
 
     render(){
       return (
         <div>
-            <div><Navbar /></div>
-            <div style={{paddingTop:"100px", marginLeft:"220px", textAlign:"center"}}>
-              <div className="container">
-                  <button id="logout" type="button" class="btn menu-link py-3" onClick={this.onLogoutClick}> Sign Out</button>
-              </div>
+          <Navbar ></Navbar>
+          <div style={{marginLeft:"220px", padding:"20px"}}>
+            <div className="row">
+              <span className="float-left" style={{fontSize: "40px"}}>Wellcome : {this.props.auth.user.name}</span>
             </div>
-          </div>         
+            <button className="btn-primary py-3 float-right" onClick={this.onLogoutClick}> Sign Out</button>
+            <div className="mt-10">
+              <label className="form-label fs-6 fw-bolder text-dark">Video Size (in MB) : &nbsp;</label>
+              <input
+                type="number"
+                onChange={this.onChange}
+                value={this.state.size}
+                // error={errors.email}
+                name="size"
+              />
+              <span className="red-text">
+                  {/* {errors.email}
+                  {errors.emailnotfound} */}
+              </span>
+              <br></br>
+              
+              <label className="form-label fs-6 fw-bolder text-dark">Count : &nbsp;</label>
+              <input
+                type="number"
+                onChange={this.onChange}
+                value={this.state.count}
+                // error={errors.email}
+                name="count"
+              />
+              <span className="red-text">
+                  {/* {errors.email}
+                  {errors.emailnotfound} */}
+              </span>
+              
+              <button className="btn-success ml-5" onClick={this.onAdd}> Add </button>
+            </div>
+          </div>
+        </div>         
       );
     }
 }
