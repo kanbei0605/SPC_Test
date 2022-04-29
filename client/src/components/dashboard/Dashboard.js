@@ -32,7 +32,6 @@ class Dashboard extends Component {
       axios
         .get("/api/video")
         .then(res => {
-          console.log(res);
           this.setState({datas: res.data});
         })
         // .catch(err => {
@@ -64,7 +63,7 @@ class Dashboard extends Component {
             });
           }
           else {
-            this.setState({err_totalSize: "No found any videos"});
+            this.setState({err_totalSize: res.data.msg});
           }
         })
     }
@@ -105,6 +104,7 @@ class Dashboard extends Component {
         .patch("/api/video", data)
         .then(res => {
           if( res.data.status === "success") {
+            console.log(res.data.data);
             alert("updated successfully");
             this.getAll();
           }
@@ -191,6 +191,16 @@ class Dashboard extends Component {
                 name="newCount"
               />
               <button className="btn-success ml-5" onClick={this.onUpdate}> Update </button>
+              {
+                this.state.err_update ? (
+                <span className="red-text ml-5">
+                  {this.state.err_update}
+                </span>
+                ) : (
+                  <></>
+                )
+              }
+
             </div>
             <div>
               <table className="table table-bordered table-striped table-hover fs-6 gy-5 "> 

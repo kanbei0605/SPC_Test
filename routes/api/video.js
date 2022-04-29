@@ -51,7 +51,7 @@ router.get('/gettotal/:name', async function(req, res, next) {
     else {
       res.json({
         status: "fail",
-        msg: "fail get video total size by username",
+        msg: "Not found video",
         totalSize: totalSize,
       });
     }
@@ -65,33 +65,23 @@ router.get('/gettotal/:name', async function(req, res, next) {
   })
 });
 
-/* GET total video size */
+/* Update video data */
 router.patch('/', async function(req, res, next) {
-  Created.find({'videoID': req.body.searchVideoID}).populate("videoID")
+  Metadata.findById(req.body.searchVideoID)
   .then( p => {
-    console.log(p);
-    if( p.length !== 0) {
-      p.videoID.videoSize = req.body.newSize;
-      p.videoID.videoCount = req.body.newCount;
+      p.videoSize = req.body.newSize;
+      p.viewerCount = req.body.newCount;
       p.save();
       res.json({
         status: "success",
         msg: "sucess get video total size by username",
-        totalSize: totalSize,
+        data : p,
       });
-    }
-    else {
-      res.json({
-        status: "fail",
-        msg: "Not found video",
-        totalSize: totalSize,
-      });
-    }
   })
   .catch( err => {
     res.json({
       status: "fail",
-      msg: "fail get video total size by username",
+      msg: "failed update video metadata",
       err: err
     });
   })
