@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "../../assets/css/bundle.css";
 
 
-class Login extends Component {
+className Login extends Component {
   constructor() {
     super();
     this.state = {
@@ -57,7 +57,7 @@ class Login extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed" style ={{ height:"800px" }}>
+      <div className="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed" style ={{backgroundImage:"url(./hd.png)", height:"800px"}}>
       <div className="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20 fadeUp">
       <div className="container w-lg-450px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto" >
          <div className="col s8 offset-s2">  
