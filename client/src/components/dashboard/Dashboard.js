@@ -17,24 +17,46 @@ class Dashboard extends Component {
       this.state = {
         size: "",
         count: "",
+        datas: [],
+        searchName: "",
       }
     }
     
-    componentDidMount = () => {
+    getAll = () => {
       axios
         .get("/api/video")
         .then(res => {
           console.log(res);
+          this.setState({datas: res.data});
         })
-        .catch(err => {
-          alert("failed");
-          console.log(err.respnse.data);
-        });
+        // .catch(err => {
+        //   alert("failed");
+        //   console.log(err.respnse.data);
+        // });
+    }
+
+    componentDidMount = () => {
+      this.getAll();
     }
 
     onLogoutClick = () => {      
       this.props.logoutUser();
     };
+
+    onGetTotalVideoSize = () => {
+      if( this.state.searchName === '') {
+        alert("Input Search Username");
+        return;
+      }
+      const data = {
+        username: this.state.searchName
+      }
+      axios
+        .get("/api/video/gettotal", data)
+        .then(res => {
+          console.log(res);
+        })
+    }
 
     onAdd = () => {
       if( this.state.size === '' || this.state.count === '') {
@@ -49,8 +71,8 @@ class Dashboard extends Component {
       axios
         .post("/api/video", data)
         .then(res => {
-          console.log(res);
           alert("created successfully");
+          this.getAll();
         })
         .catch(err => {
           alert("failed");
@@ -64,9 +86,9 @@ class Dashboard extends Component {
 
     render(){
       return (
-        <div>
-          <Navbar ></Navbar>
-          <div style={{marginLeft:"220px", padding:"20px"}}>
+        <div className="container">
+          {/* <Navbar ></Navbar> */}
+          <div style={{padding:"20px"}}>
             <div className="row">
               <span className="float-left" style={{fontSize: "40px"}}>Wellcome : {this.props.auth.user.name}</span>
             </div>
@@ -77,29 +99,51 @@ class Dashboard extends Component {
                 type="number"
                 onChange={this.onChange}
                 value={this.state.size}
-                // error={errors.email}
                 name="size"
               />
-              <span className="red-text">
-                  {/* {errors.email}
-                  {errors.emailnotfound} */}
-              </span>
-              <br></br>
-              
-              <label className="form-label fs-6 fw-bolder text-dark">Count : &nbsp;</label>
+              <label className="form-label fs-6 fw-bolder text-dark ml-5">ViewerCount : &nbsp;</label>
               <input
                 type="number"
                 onChange={this.onChange}
                 value={this.state.count}
-                // error={errors.email}
                 name="count"
               />
-              <span className="red-text">
-                  {/* {errors.email}
-                  {errors.emailnotfound} */}
-              </span>
-              
               <button className="btn-success ml-5" onClick={this.onAdd}> Add </button>
+              <hr></hr>
+              <label className="form-label fs-6 fw-bolder text-dark">Search Username : &nbsp;</label>
+              <input
+                type="text"
+                onChange={this.onChange}
+                value={this.state.searchName}
+                name="searchName"
+              />
+              <button className="btn-success ml-5" onClick={this.onGetTotalVideoSize}> Get total video size </button>
+            </div>
+            <div>
+              <table className="table table-bordered table-striped table-hover fs-6 gy-5 "> 
+                <thead>
+                  <tr>
+                    <th> CreatedBy </th>
+                    <th> id </th>
+                    <th> Video Size (in MB) </th>
+                    <th> Viewers Count </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    this.state.datas.map((val,index) => {
+                      return (
+                        <tr key={index}>
+                          <td> {val.createdBy} </td>
+                          <td> {val.videoID._id} </td>
+                          <td> {val.videoID.videoSize} </td>
+                          <td> {val.videoID.viewerCount} </td>
+                        </tr>
+                      );
+                    })
+                  }
+                </tbody>
+              </table>
             </div>
           </div>
         </div>         

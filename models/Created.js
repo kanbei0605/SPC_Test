@@ -9,7 +9,7 @@ const CreatedSchema = new Schema({
   },
   videoID: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Metadata"
+    ref: "metadatas"
   },
   date: {
     type: Date,

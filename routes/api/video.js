@@ -7,18 +7,13 @@ var Metadata = require('../../models/Metadata.js');
 
 /* GET ALL Metadata */
 router.get('/', async function(req, res, next) {
-  
-  // const identifiers = await Created.find().populate("videoID");
-  // console.log("> All Identifiers\n", identifiers);
-
-  // Created.find().populate("videoID")
-  // .then( p => {
-  //   res.json(p);
-  // })
-  // .catch( err => {
-  //   res.json(err);
-  // })
-  // res.json(datas);
+  Created.find().populate("videoID")
+  .then( p => {
+    res.json(p);
+  })
+  .catch( err => {
+    res.json(err);
+  })
 });
 
 /* SAVE Report */
@@ -34,6 +29,19 @@ router.post('/', function(req, res, next) {
     if (er) return next(er);
     res.json(p)
   });
+});
+
+/* GET total video size */
+router.get('/gettotal', async function(req, res, next) {
+  console.log(req.body.username);
+  return;
+  Created.find({craetedBy: req.body.username}).populate("videoID")
+  .then( p => {
+    res.json(p);
+  })
+  .catch( err => {
+    res.json(err);
+  })
 });
 
 module.exports = router;
