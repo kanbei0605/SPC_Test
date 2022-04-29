@@ -34,10 +34,10 @@ class Dashboard extends Component {
         .then(res => {
           this.setState({datas: res.data});
         })
-        // .catch(err => {
-        //   alert("failed");
-        //   console.log(err.respnse.data);
-        // });
+        .catch(err => {
+          alert("failed");
+          console.log(err.respnse.data);
+        });
     }
 
     componentDidMount = () => {

@@ -5,6 +5,20 @@ var Created = require('../../models/Created.js');
 var Metadata = require('../../models/Metadata.js');
 
 
+/* SAVE Report */
+router.post('/', function(req, res, next) {
+  const new_metadata = new Metadata({
+    videoSize: req.body.videoSize,
+    viewerCount: req.body.viewerCount,
+  });
+  new_metadata.save();
+  const createdData = { createdBy: req.body.username, videoID: new_metadata };
+  Created.create(createdData, function (er, p) {
+    if (er) return next(er);
+    res.json(p)
+  });
+});
+
 /* GET ALL Metadata */
 router.get('/', async function(req, res, next) {
   Created.find().populate("videoID")
@@ -16,28 +30,12 @@ router.get('/', async function(req, res, next) {
   })
 });
 
-/* SAVE Report */
-router.post('/', function(req, res, next) {
-  const new_metadata = new Metadata({
-    videoSize: req.body.videoSize,
-    viewerCount: req.body.viewerCount,
-  });
-  new_metadata.save();
-
-  const createdData = { createdBy: req.body.username, videoID: new_metadata };
-  Created.create(createdData, function (er, p) {
-    if (er) return next(er);
-    res.json(p)
-  });
-});
-
 /* GET total video size */
 router.get('/gettotal/:name', async function(req, res, next) {
   Created.find({'createdBy': req.params.name}).populate("videoID")
   .then( p => {
     let totalSize = 0;
     p.map((val, index) => {
-      console.log(val);
       totalSize += val.videoID.videoSize;
       return;
     })
