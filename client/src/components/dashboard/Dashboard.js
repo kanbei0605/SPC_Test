@@ -19,6 +19,12 @@ class Dashboard extends Component {
         count: "",
         datas: [],
         searchName: "",
+        totalSize: 0,
+        searchVideoID: "",
+        newSize: 0,
+        newCount: 0,
+        err_totalSize: "",
+        err_update: "",
       }
     }
     
@@ -48,13 +54,18 @@ class Dashboard extends Component {
         alert("Input Search Username");
         return;
       }
-      const data = {
-        username: this.state.searchName
-      }
       axios
-        .get("/api/video/gettotal", data)
+        .get("/api/video/gettotal/" + this.state.searchName)
         .then(res => {
-          console.log(res);
+          if( res.data.status === "success") {
+            this.setState({
+              totalSize: res.data.totalSize,
+              err_totalSize: ""
+            });
+          }
+          else {
+            this.setState({err_totalSize: "No found any videos"});
+          }
         })
     }
 
@@ -79,6 +90,33 @@ class Dashboard extends Component {
           console.log(err.respnse.data);
         });
     };
+
+    onUpdate = () => {
+      if( this.state.searchVideoID === '' || this.state.newCount === 0 || this.state.newSize === 0) {
+        alert("Input correctly");
+        return;
+      }
+      const data = {
+        searchVideoID: this.state.searchVideoID,
+        newCount: this.state.newCount,
+        newSize: this.state.newSize
+      }
+      axios
+        .patch("/api/video", data)
+        .then(res => {
+          if( res.data.status === "success") {
+            alert("updated successfully");
+            this.getAll();
+          }
+          else {
+            this.setState({err_update: res.data.msg});
+          }
+        })
+        .catch(err => {
+          alert("failed");
+          console.log(err.respnse.data);
+        });
+    }
 
     onChange = e => {
       this.setState({ [e.target.name]: e.target.value });
@@ -118,13 +156,48 @@ class Dashboard extends Component {
                 name="searchName"
               />
               <button className="btn-success ml-5" onClick={this.onGetTotalVideoSize}> Get total video size </button>
+              {
+                this.state.err_totalSize || this.state.totalSize === 0 ? (
+                <span className="red-text ml-5">
+                  {this.state.err_totalSize}
+                </span>
+                ) : (
+                  <>
+                    <label className="form-label fs-6 fw-bolder text-dark ml-5">totalSize : &nbsp;</label>
+                    <label className="form-label fs-6 fw-bolder text-dark">{ this.state.totalSize }</label>
+                  </>
+                )
+              }
+              <hr></hr>
+              <label className="form-label fs-6 fw-bolder text-dark">Search VideoID : &nbsp;</label>
+              <input
+                type="text"
+                onChange={this.onChange}
+                value={this.state.searchVideoID}
+                name="searchVideoID"
+              />
+              <label className="form-label fs-6 fw-bolder text-dark ml-5">New Size : &nbsp;</label>
+              <input
+                type="number"
+                onChange={this.onChange}
+                value={this.state.newSize}
+                name="newSize"
+              />
+              <label className="form-label fs-6 fw-bolder text-dark ml-5">New Viewers Count : &nbsp;</label>
+              <input
+                type="number"
+                onChange={this.onChange}
+                value={this.state.newCount}
+                name="newCount"
+              />
+              <button className="btn-success ml-5" onClick={this.onUpdate}> Update </button>
             </div>
             <div>
               <table className="table table-bordered table-striped table-hover fs-6 gy-5 "> 
                 <thead>
                   <tr>
                     <th> CreatedBy </th>
-                    <th> id </th>
+                    <th> VideoID </th>
                     <th> Video Size (in MB) </th>
                     <th> Viewers Count </th>
                   </tr>

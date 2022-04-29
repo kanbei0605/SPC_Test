@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 // Create Schema
 const MetadataSchema = new Schema({
   videoSize: {
-    type: String,
+    type: Number,
     required: true
   },
   viewerCount: {

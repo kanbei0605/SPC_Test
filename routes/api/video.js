@@ -32,15 +32,68 @@ router.post('/', function(req, res, next) {
 });
 
 /* GET total video size */
-router.get('/gettotal', async function(req, res, next) {
-  console.log(req.body.username);
-  return;
-  Created.find({craetedBy: req.body.username}).populate("videoID")
+router.get('/gettotal/:name', async function(req, res, next) {
+  Created.find({'createdBy': req.params.name}).populate("videoID")
   .then( p => {
-    res.json(p);
+    let totalSize = 0;
+    p.map((val, index) => {
+      console.log(val);
+      totalSize += val.videoID.videoSize;
+      return;
+    })
+    if( p.length !== 0) {
+      res.json({
+        status: "success",
+        msg: "sucess get video total size by username",
+        totalSize: totalSize,
+      });
+    }
+    else {
+      res.json({
+        status: "fail",
+        msg: "fail get video total size by username",
+        totalSize: totalSize,
+      });
+    }
   })
   .catch( err => {
-    res.json(err);
+    res.json({
+      status: "fail",
+      msg: "fail get video total size by username",
+      err: err
+    });
+  })
+});
+
+/* GET total video size */
+router.patch('/', async function(req, res, next) {
+  Created.find({'videoID': req.body.searchVideoID}).populate("videoID")
+  .then( p => {
+    console.log(p);
+    if( p.length !== 0) {
+      p.videoID.videoSize = req.body.newSize;
+      p.videoID.videoCount = req.body.newCount;
+      p.save();
+      res.json({
+        status: "success",
+        msg: "sucess get video total size by username",
+        totalSize: totalSize,
+      });
+    }
+    else {
+      res.json({
+        status: "fail",
+        msg: "Not found video",
+        totalSize: totalSize,
+      });
+    }
+  })
+  .catch( err => {
+    res.json({
+      status: "fail",
+      msg: "fail get video total size by username",
+      err: err
+    });
   })
 });
 
